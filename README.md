@@ -2,6 +2,19 @@
 
 Solver automat pentru jocul Hangman care identifică cuvinte pornind de la un pattern parțial cunoscut.
 
+## ⚡ Start Rapid
+
+```bash
+# Clonează repository-ul
+git clone <url-repository>
+cd proiect-main
+
+# Rulează solver-ul (FĂRĂ parametri!)
+python src/hangman.py
+```
+
+**Rezultat:** Procesează automat 100 jocuri și salvează rezultatele în `results/hangman_results.csv`
+
 ## 📋 Cerințe
 
 - Python 3.7+
@@ -13,37 +26,31 @@ Solver automat pentru jocul Hangman care identifică cuvinte pornind de la un pa
 ```bash
 pip install -r requirements.txt
 ```
+*Notă: Fișierul requirements.txt este gol - proiectul rulează 100% offline fără dependențe externe.*
 
-### 2. Generare fișier CSV de test
+### 2. Rulare solver (SIMPLU - UN SINGUR COMMAND)
 ```bash
-cd data
-python convert_to_csv.py
+python src/hangman.py
 ```
 
-### 3. Rulare solver
-```bash
-python solve_hangman.py --input data/test.csv --output results/output.csv
-```
+**Atât!** Scriptul:
+- ✅ Citește automat din `data/cuvinte_de_verificat.csv`
+- ✅ Procesează toate jocurile (100)
+- ✅ Salvează rezultatele în `results/hangman_results.csv`
+- ✅ Afișează raport complet la final
 
-### Parametri CLI
-
-| Parametru | Scurt | Descriere | Obligatoriu | Default |
-|-----------|-------|-----------|-------------|---------|
-| `--input` | `-i` | Fișier CSV de intrare | ✅ Da | - |
-| `--output` | `-o` | Fișier CSV de ieșire | ✅ Da | - |
-| `--max-iter` | - | Limită încercări per joc | ❌ Nu | 1200 |
-
-### Exemple de utilizare
+### Rulare din orice director
 
 ```bash
-# Rulare standard
-python solve_hangman.py --input data/test.csv --output results/out.csv
+# Din directorul principal
+python src/hangman.py
 
-# Cu limită personalizată
-python solve_hangman.py -i data/test.csv -o results/out.csv --max-iter 1500
+# Sau din directorul src
+cd src
+python hangman.py
 
-# Format scurt
-python solve_hangman.py -i data/test.csv -o results/out.csv
+# Sau cu calea completă
+python "C:\calea\ta\proiect-main\src\hangman.py"
 ```
 
 ## 📁 Structura Proiectului
@@ -51,20 +58,21 @@ python solve_hangman.py -i data/test.csv -o results/out.csv
 ```
 proiect-main/
 ├── data/
-│   ├── test.csv                    # Fișier CSV de intrare
-│   ├── cuvinte_de_verificat.txt    # Fișier original (format txt)
+│   ├── cuvinte_de_verificat.csv    # 📥 INPUT: Fișier CSV cu jocurile (100)
+│   ├── cuvinte_de_verificat.txt    # Legacy (nu se mai folosește)
 │   └── convert_to_csv.py           # Script conversie txt → CSV
 ├── src/
-│   └── hangman.py                  # Algoritm solver
+│   └── hangman.py                  # 🎯 MAIN: Tot codul aici (autonom)
 ├── results/
-│   └── output.csv                  # Rezultate (generat)
-├── docs/
-│   └── prezentare.pptx             # Prezentare proiect
-├── solve_hangman.py                # Script principal CLI
-├── test_solver.py                  # Script pentru testare (opțional)
-├── requirements.txt                # Dependențe Python
+│   └── hangman_results.csv         # 📤 OUTPUT: Rezultate (generat automat)
+├── requirements.txt                # Dependențe (gol - offline)
 └── README.md                       # Documentație
 ```
+
+**Fișiere importante:**
+- **`src/hangman.py`** - Scriptul principal care face totul
+- **`data/cuvinte_de_verificat.csv`** - Datele de intrare (100 jocuri)
+- **`results/hangman_results.csv`** - Rezultatele generate
 
 ## 📊 Format Fișiere
 
@@ -87,16 +95,16 @@ game_id,pattern_initial,cuvant_tinta
 - Litere cunoscute = litere din cuvânt (case-insensitive)
 - Suport diacritice românești: `ă â î ș ț`
 
-### Output CSV (generat automat)
+### Output CSV (generat automat în `results/hangman_results.csv`)
 
 **Coloane:** `game_id`, `total_incercari`, `cuvant_gasit`, `status`, `secventa_incercari`
 
-**Exemplu:**
+**Exemplu real din rezultate:**
 ```csv
 game_id,total_incercari,cuvant_gasit,status,secventa_incercari
-1,25,ICONOGRAFĂ,OK,"E, A, I, R, O, N, C, G, F"
-2,18,FAGOCITUL,OK,"E, A, I, O, G, C, T, U, L"
-INVALID,0,N/A,FAIL,""
+1,17,ICONOGRAFĂ,OK,"E, O, T, I, U, N, L, Ă, Î, C, D, P, Â, F, S, B, G"
+2,19,FAGOCITUL,OK,"E, R, I, L, U, T, O, Ă, N, Î, Â, S, D, P, M, V, F, B, G"
+3,10,APICOLILOR,OK,"E, A, I, U, R, O, T, Ă, N, L"
 ```
 
 **Câmpuri:**
@@ -143,32 +151,35 @@ Liniile invalide sunt **omise** din procesare și raportate la final.
 - **Acuratețe**: 100% (toate cuvintele trebuie identificate corect)
 - **Timp execuție**: < 180s (recomandat)
 
+### Rezultate Obținute
+
+✅ **Acuratețe**: 100/100 jocuri rezolvate (100%)  
+📊 **Total încercări**: 1703 (peste limita de 1200)  
+⏱️ **Timp execuție**: ~0.14 secunde  
+📈 **Media per joc**: 17.0 încercări
+
 ## 📈 Raport Final
 
 La finalizare, scriptul afișează un raport complet:
 
 ```
-############################################################
-RAPORT FINAL
-############################################################
-
-📋 VALIDARE:
-  Linii totale procesate: 103
-  Linii valide: 100
-  Linii invalide (omise): 3
-
-⚠️ ERORI DE VALIDARE (3):
-  [Linia 45] Game ID 'TEST1': LENGTH_MISMATCH - Lungimi diferite...
-
-🎯 REZULTATE:
-  Jocuri rezolvate (OK): 100/100
-  Jocuri eșuate (FAIL): 0/100
-  Rată de succes: 100.00%
-  Total încercări: 1156
-  ✅ PERFORMANȚĂ: Sub limita de 1200 încercări!
-
-⏱️ Timp de execuție: 42.35 secunde
+📊 RAPORT FINAL:
+============================================================
+📋 Jocuri procesate: 100
+✅ Jocuri rezolvate: 100/100 (100.0%)
+❌ Jocuri eșuate: 0
+🔢 Total încercări: 1703
+📈 Media încercări/joc: 17.0
+⚠️  PERFORMANȚĂ: Peste limita de 1200 încercări (+503)
+============================================================
+🏁 Program finalizat.
 ```
+
+**Interpretare:**
+- ✅ **100% acuratețe** - toate cuvintele identificate corect
+- ⚠️ **1703 încercări totale** - peste limita recomandată de 1200
+- ⏱️ **~0.14 secunde** - execuție foarte rapidă
+- 📁 **Rezultate salvate** automat în `results/hangman_results.csv`
 
 ## 🔧 Limitări și Ipoteze
 
@@ -192,15 +203,22 @@ RAPORT FINAL
 
 ## 🛠️ Dezvoltare și Testare
 
-### Rulare teste
+### Rulare rapidă pentru testare
 ```bash
-python test_solver.py
+# Rulare completă (toate 100 jocurile)
+python src/hangman.py
+
+# Verificare rezultate
+type results\hangman_results.csv  # Windows
+# sau
+cat results/hangman_results.csv   # Linux/Mac
 ```
 
-### Testare validare
-```bash
-python solve_hangman.py -i data/test_validation.csv -o results/validation_out.csv
-```
+### Modificare algoritm
+Pentru a modifica strategia de rezolvare, editează fișierul `src/hangman.py`:
+- **Funcția principală**: `solve_hangman_silent()`
+- **Strategia de alegere**: `choose_next_letter_advanced()`
+- **Scorarea literelor**: `get_pattern_score()`
 
 ## 📚 Resurse
 
@@ -210,5 +228,8 @@ python solve_hangman.py -i data/test_validation.csv -o results/validation_out.cs
 
 ## 👥 Autor
 
-Proiect realizat pentru cursul de [Practica de Specialitate] - [UTCN Baia Mare]
+Proiect realizat pentru cursul de [Nume Curs] - [Universitate]
 
+## 📄 Licență
+
+Acest proiect este realizat în scop educațional.
