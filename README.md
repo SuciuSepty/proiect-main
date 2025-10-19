@@ -226,10 +226,6 @@ Pentru a modifica strategia de rezolvare, editează fișierul `src/hangman.py`:
 - Biograme: Analiză statistică limba română
 - Pattern matching: Implementare proprie
 
-## 👥 Autor
-
-Proiect realizat pentru cursul de [Nume Curs] - [Universitate]
-
 ## 📄 Licență
 
 Acest proiect este realizat în scop educațional.
