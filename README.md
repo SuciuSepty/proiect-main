@@ -210,8 +210,5 @@ python solve_hangman.py -i data/test_validation.csv -o results/validation_out.cs
 
 ## 👥 Autor
 
-Proiect realizat pentru cursul de [Nume Curs] - [Universitate]
+Proiect realizat pentru cursul de [Practica de Specialitate] - [UTCN Baia Mare]
 
-## 📄 Licență
-
-Acest proiect este realizat în scop educațional.
